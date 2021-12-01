@@ -38,7 +38,7 @@ if (window.innerWidth > 600) {
             let textoDireito = missions[indiceGame].acoes[1].texto
             $(".gam-pessoa-img").html(
                 `
-                    <div class="gma-pessoa-texto-direto">
+                    <div class="gma-pessoa-texto-direito">
                         ${textoDireito}
                     </div>
                 `
@@ -104,12 +104,13 @@ if (window.innerWidth > 600) {
 
     function next(i) {
         let personagemsFoto = missions[i].pessoaImg
+        let textoMission = missions[i].texto
         if (personagemsFoto == "") {
             personagemsFoto = "p1.jpeg"
         }
         let html = `
                     <div class="gam-texto">
-                        ${missions[i].texto}
+                        ${textoMission}
                     </div>
                     <div class="gam-pessoa">
                         <div class="gam-pessoa-img" id="carta" style="background-image: url('./personagemsFoto/${personagemsFoto}');">
@@ -133,6 +134,12 @@ if (window.innerWidth > 600) {
         // }, 600)
 
         $(".ga-middle").html(html)
+        if (textoMission.length > 200) {
+            $(".gam-texto").css("display", "initial")
+        } else {
+            $(".gam-texto").css("display", "flex")
+        }
+
 
         direction = ""
 
@@ -157,9 +164,6 @@ if (window.innerWidth > 600) {
         let personagemsFoto = introducao[iIntroducao].pessoaImg
         if (personagemsFoto == "") {
             personagemsFoto = "p1.jpeg"
-        }
-        if (iIntroducao == introducao.length) {
-            console.log("Vamos startar!")
         }
         let html = `
             <div class="gam-texto">
@@ -213,7 +217,7 @@ if (window.innerWidth > 600) {
             let textoDireito = introducao[indiceIntro].acoes[1].texto
             $(".gam-pessoa-img").html(
                 `
-                    <div class="gma-pessoa-texto-direto">
+                    <div class="gma-pessoa-texto-direito">
                         ${textoDireito}
                     </div>
                 `
@@ -235,7 +239,6 @@ if (window.innerWidth > 600) {
     }
 
     function dragEndIntro() {
-        console.log(directionIntro)
         if (directionIntro === "esquerda") {
             next(indiceGame)
         } else if (directionIntro == "direita") {
@@ -292,7 +295,7 @@ if (window.innerWidth > 600) {
             let textoDireito = missions[indiceGame].acoes[1].texto
             $(".gam-pessoa-img").html(
                 `
-                    <div class="gma-pessoa-texto-esquerdo">
+                    <div class="gma-pessoa-texto-direito">
                         ${textoDireito}
                     </div>
                 `
@@ -362,17 +365,18 @@ if (window.innerWidth > 600) {
 
     function next(i) {
         let personagemsFoto = missions[i].pessoaImg
+        let textoMission = missions[i].texto
         if (personagemsFoto == "") {
             personagemsFoto = "p1.jpeg"
         }
         let html = `
                     <div class="gam-texto">
-                        ${missions[i].texto}
+                        ${textoMission}
                     </div>
                     <div class="gam-pessoa">
-                        <div class="gam-pessoa-img" id="carta">
+                        <div class="gam-pessoa-img" id="carta" style="background-image: url('./personagemsFoto/${personagemsFoto}');">
                         </div>
-                        <div class="gam-pessoa-img-fundo" id="moveBackground" style="background-image: url('./personagemsFoto/${personagemsFoto}');>
+                        <div class="gam-pessoa-img-fundo" id="moveBackground">
                         </div>
                     </div>
                     <div class="gam-nome">
@@ -381,6 +385,11 @@ if (window.innerWidth > 600) {
         `
 
         $(".ga-middle").html(html)
+        if (textoMission.length > 200) {
+            $(".gam-texto").css("display", "initial")
+        } else {
+            $(".gam-texto").css("display", "flex")
+        }
 
         direction = ""
 
@@ -393,7 +402,128 @@ if (window.innerWidth > 600) {
     }
 
 
-    next(indiceGame)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function introducaoStart(iIntroducao) {
+        let personagemsFoto = introducao[iIntroducao].pessoaImg
+        if (personagemsFoto == "") {
+            personagemsFoto = "p1.jpeg"
+        }
+        let html = `
+            <div class="gam-texto">
+                ${introducao[iIntroducao].texto}
+            </div>
+            <div class="gam-pessoa">
+                <div class="gam-pessoa-img" id="carta" style="background-image: url('./personagemsFoto/${personagemsFoto}');">
+                </div>
+                <div class="gam-pessoa-img-fundo" id="moveBackground">
+                </div>
+            </div>
+            <div class="gam-nome">
+                ${introducao[iIntroducao].pessoaNome}
+            </div>
+        `
+        $(".ga-middle").html(html)
+
+        move = document.getElementById("carta")
+        directionIntro = ""
+        positionX_inicial = document.getElementById("moveBackground").offsetLeft
+        positionY_inicial = document.getElementById("moveBackground").offsetTop
+
+        move.addEventListener("touchstart", dragStartIntro)
+    }
+
+
+
+    function dragStartIntro(e) {
+        itemX = e.targetTouches[0].pageX - move.offsetLeft;
+        itemY = e.targetTouches[0].pageY - move.offsetTop;
+
+        addEventListener("touchmove", dragMoveIntro);
+        addEventListener("touchend", dragEndIntro);
+    }
+
+
+
+    function dragMoveIntro(e) {
+        move.style.left = (e.targetTouches[0].pageX - itemX) + 'px';
+        if ((e.targetTouches[0].pageY - itemY) > -43 && (e.targetTouches[0].pageY - itemY) < 90) {
+            move.style.top = (e.targetTouches[0].pageY - itemY) + 'px';
+        }
+        if (e.targetTouches[0].pageX - itemX > 40) {
+            move.style.transform = "rotate(" + (((e.targetTouches[0].pageX - itemX) - 40) * 0.2) + "deg)"
+        } else if (e.targetTouches[0].pageX - itemX < 40) {
+            move.style.transform = "rotate(" + (((e.targetTouches[0].pageX - itemX) - 40) * 0.2) + "deg)"
+        }
+
+        if (e.targetTouches[0].pageX - itemX > 50) {
+            directionIntro = "direita"
+            let textoDireito = introducao[indiceIntro].acoes[1].texto
+            $(".gam-pessoa-img").html(
+                `
+                    <div class="gma-pessoa-texto-direito">
+                        ${textoDireito}
+                    </div>
+                `
+            )
+        } else if (e.targetTouches[0].pageX - itemX < 30) {
+            directionIntro = "esquerda"
+            let textoEsquerdo = introducao[indiceIntro].acoes[0].texto
+            $(".gam-pessoa-img").html(
+                `
+                <div class="gma-pessoa-texto-esquerdo">
+                    ${textoEsquerdo}
+                </div>
+                `
+            )
+        } else if (e.targetTouches[0].pageX - itemX > 30 && e.targetTouches[0].pageX - itemX < 50) {
+            directionIntro = ""
+            document.querySelector(".gam-pessoa-img").innerHTML = " "
+        }
+    }
+
+    function dragEndIntro() {
+        if (directionIntro === "esquerda") {
+            next(indiceGame)
+        } else if (directionIntro == "direita") {
+            if (indiceIntro < introducao.length - 1) {
+                indiceIntro++
+                introducaoStart(indiceIntro)
+            } else {
+                next(indiceGame)
+            }
+        } else if (directionIntro == "") {
+            $(move).css("transition", "all cubic-bezier(0.25, 0.46, 0.45, 0.94) .2s")
+            setTimeout(() => {
+                move.style.transform = "rotate(0deg)";
+                $(move).css("left", positionX_inicial)
+                $(move).css("top", positionY_inicial)
+            }, 100)
+            setTimeout(() => {
+                $(move).css("transition", "none")
+            }, 300)
+        }
+        removeEventListener("touchmove", dragMoveIntro)
+        removeEventListener("touchend", dragEndIntro)
+    }
+
+    introducaoStart(0)
+
 
 
 }

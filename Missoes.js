@@ -66,7 +66,7 @@ const missions = [
     {
         texto: "As coisas estão complicadas, nós iremos morrer, vamos começar a matar tudo mundo.",
         pessoaImg: "",
-        pessoaNome: "Embaixador Ross",
+        pessoaNome: "Informante",
         acoes: [
             {
                 texto: "Tá maluco?",
@@ -87,7 +87,7 @@ const missions = [
     {
         texto: "Está anoite, e é perfeito para uma invasâo, vamos invadir eles!",
         pessoaImg: "",
-        pessoaNome: "Embaixador Ross",
+        pessoaNome: "Carinha invasor",
         acoes: [
             {   
                 texto: "Vou na frente",
