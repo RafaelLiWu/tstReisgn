@@ -1,7 +1,50 @@
+const introducao = [
+    {
+        texto: "Olá jogador, deseja começar o tutorial?",
+        pessoaImg: "",
+        pessoaNome: "Estágiario",
+        acoes: [
+            {
+                texto: "Não obrigado."
+            },
+            {
+                texto: "Claro"
+            }
+        ]
+    },
+    {
+        texto: ".. você apenas joga e faz isso faz aquilo e mais aquilo ali e tals",
+        pessoaImg: "",
+        pessoaNome: "Mulher da intro",
+        acoes: [
+            {
+                texto: "Atah já entendi"
+            },
+            {
+                texto: "Continua"
+            }
+        ]
+    },
+    {
+        texto: "Tu já entendeu, para de se fingir de bobo",
+        pessoaImg: "",
+        pessoaNome: "Mulher da intro irritada",
+        acoes: [
+            {
+                texto: "Beleza"
+            },
+            {
+                texto: "Beleza"
+            }
+        ]
+    }
+]
+
+
 const missions = [
     {
         texto: "As tropas então avançando na muralha, e os nossos soldados estão com fome.",
-        pessoaImg: "",
+        pessoaImg: "p1.jpeg",
         pessoaNome: "Embaixador Ross",
         acoes: [
             {   

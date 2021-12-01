@@ -1,10 +1,12 @@
 var move = document.getElementById("carta"),
     indiceGame = 0,
+    indiceIntro = 0,
     itemX = 0,
     itemY = 0,
     positionX_inicial = document.getElementById("moveBackground"),
     positionY_inicial = document.getElementById("moveBackground"),
     transitionX = 0,
+    directionIntro = "",
     direction = "",
     pessoaV = document.querySelector(".pessoa-vida").innerHTML,
     vidaV = document.querySelector(".vida-vida").innerHTML,
@@ -101,12 +103,16 @@ if (window.innerWidth > 600) {
 
 
     function next(i) {
+        let personagemsFoto = missions[i].pessoaImg
+        if (personagemsFoto == "") {
+            personagemsFoto = "p1.jpeg"
+        }
         let html = `
                     <div class="gam-texto">
                         ${missions[i].texto}
                     </div>
                     <div class="gam-pessoa">
-                        <div class="gam-pessoa-img" id="carta">
+                        <div class="gam-pessoa-img" id="carta" style="background-image: url('./personagemsFoto/${personagemsFoto}');">
                         </div>
                         <div class="gam-pessoa-img-fundo" id="moveBackground">
                         </div>
@@ -115,6 +121,16 @@ if (window.innerWidth > 600) {
                         ${missions[i].pessoaNome}
                     </div>
         `
+
+        // Animação lá do Lapse
+        // $("#carta").css("transition", "all ease .5s")
+        // setTimeout(() => {
+        //     $("#carta").css("background-color", `white`)
+        // }, 100);
+        // setTimeout(() => {
+        //     $("#carta").css("background-image", `url('./personagemsFoto/${personagemsFoto}')`)
+        //     $("#carta").css("transition", "none")
+        // }, 600)
 
         $(".ga-middle").html(html)
 
@@ -129,8 +145,122 @@ if (window.innerWidth > 600) {
     }
 
 
-    next(indiceGame)
 
+
+
+
+
+
+
+
+    function introducaoStart(iIntroducao) {
+        let personagemsFoto = introducao[iIntroducao].pessoaImg
+        if (personagemsFoto == "") {
+            personagemsFoto = "p1.jpeg"
+        }
+        if (iIntroducao == introducao.length) {
+            console.log("Vamos startar!")
+        }
+        let html = `
+            <div class="gam-texto">
+                ${introducao[iIntroducao].texto}
+            </div>
+            <div class="gam-pessoa">
+                <div class="gam-pessoa-img" id="carta" style="background-image: url('./personagemsFoto/${personagemsFoto}');">
+                </div>
+                <div class="gam-pessoa-img-fundo" id="moveBackground">
+                </div>
+            </div>
+            <div class="gam-nome">
+                ${introducao[iIntroducao].pessoaNome}
+            </div>
+        `
+        $(".ga-middle").html(html)
+
+        move = document.getElementById("carta")
+        directionIntro = ""
+        positionX_inicial = document.getElementById("moveBackground").offsetLeft
+        positionY_inicial = document.getElementById("moveBackground").offsetTop
+
+        move.addEventListener("mousedown", dragStartIntro)
+    }
+
+
+
+    function dragStartIntro(e) {
+        itemX = e.pageX - move.offsetLeft;
+        itemY = e.pageY - move.offsetTop;
+
+        addEventListener("mousemove", dragMoveIntro);
+        addEventListener("mouseup", dragEndIntro);
+    }
+
+
+
+    function dragMoveIntro(e) {
+        move.style.left = (e.pageX - itemX) + 'px';
+        if ((e.pageY - itemY) > -43 && (e.pageY - itemY) < 90) {
+            move.style.top = (e.pageY - itemY) + 'px';
+        }
+        if (e.pageX - itemX > 40) {
+            move.style.transform = "rotate(" + (((e.pageX - itemX) - 40) * 0.2) + "deg)"
+        } else if (e.pageX - itemX < 40) {
+            move.style.transform = "rotate(" + (((e.pageX - itemX) - 40) * 0.2) + "deg)"
+        }
+
+        if (e.pageX - itemX > 50) {
+            directionIntro = "direita"
+            let textoDireito = introducao[indiceIntro].acoes[1].texto
+            $(".gam-pessoa-img").html(
+                `
+                    <div class="gma-pessoa-texto-direto">
+                        ${textoDireito}
+                    </div>
+                `
+            )
+        } else if (e.pageX - itemX < 30) {
+            directionIntro = "esquerda"
+            let textoEsquerdo = introducao[indiceIntro].acoes[0].texto
+            $(".gam-pessoa-img").html(
+                `
+                <div class="gma-pessoa-texto-esquerdo">
+                    ${textoEsquerdo}
+                </div>
+                `
+            )
+        } else if (e.pageX - itemX > 30 && e.pageX - itemX < 50) {
+            directionIntro = ""
+            document.querySelector(".gam-pessoa-img").innerHTML = " "
+        }
+    }
+
+    function dragEndIntro() {
+        console.log(directionIntro)
+        if (directionIntro === "esquerda") {
+            next(indiceGame)
+        } else if (directionIntro == "direita") {
+            if (indiceIntro < introducao.length - 1) {
+                indiceIntro++
+                introducaoStart(indiceIntro)
+            } else {
+                next(indiceGame)
+            }
+        } else if (directionIntro == "") {
+            $(move).css("transition", "all cubic-bezier(0.25, 0.46, 0.45, 0.94) .2s")
+            setTimeout(() => {
+                move.style.transform = "rotate(0deg)";
+                $(move).css("left", positionX_inicial)
+                $(move).css("top", positionY_inicial)
+            }, 100)
+            setTimeout(() => {
+                $(move).css("transition", "none")
+            }, 300)
+        }
+        removeEventListener("mousemove", dragMoveIntro)
+        removeEventListener("mouseup", dragEndIntro)
+    }
+
+    introducaoStart(0)
 
 
 
@@ -231,6 +361,10 @@ if (window.innerWidth > 600) {
     }
 
     function next(i) {
+        let personagemsFoto = missions[i].pessoaImg
+        if (personagemsFoto == "") {
+            personagemsFoto = "p1.jpeg"
+        }
         let html = `
                     <div class="gam-texto">
                         ${missions[i].texto}
@@ -238,7 +372,7 @@ if (window.innerWidth > 600) {
                     <div class="gam-pessoa">
                         <div class="gam-pessoa-img" id="carta">
                         </div>
-                        <div class="gam-pessoa-img-fundo" id="moveBackground">
+                        <div class="gam-pessoa-img-fundo" id="moveBackground" style="background-image: url('./personagemsFoto/${personagemsFoto}');>
                         </div>
                     </div>
                     <div class="gam-nome">
@@ -281,12 +415,16 @@ function afetar(pessoa, vida, arma, dinheiro) {
 
 function morreu() {
     let randomNumber = Math.floor(Math.random() * mortes.length)
+    let personagemsFoto = mortes[randomNumber].pessoaImg
+    if (personagemsFoto == "") {
+        personagemsFoto = "p1.jpeg"
+    }
     let html = `
                     <div class="gam-texto">
                         ${mortes[randomNumber].texto}
                     </div>
                     <div class="gam-pessoa">
-                        <div class="gam-pessoa-img" id="carta" onclick="loadingAgain()">
+                        <div class="gam-pessoa-img" id="carta" onclick="loadingAgain()" style="background-image: url('./personagemsFoto/${personagemsFoto}')">
                         </div>
                     </div>
                     <div class="gam-nome">
@@ -297,12 +435,16 @@ function morreu() {
 
 function finish() {
     let randomNumber = Math.floor(Math.random() * finais.length)
+    let personagemsFoto = finais[randomNumber].pessoaImg
+    if (personagemsFoto == "") {
+        personagemsFoto = "p1.jpeg"
+    }
     let html = `
                     <div class="gam-texto">
                         ${finais[randomNumber].texto}
                     </div>
                     <div class="gam-pessoa">
-                        <div class="gam-pessoa-img" id="carta" onclick="loadingAgain()">
+                        <div class="gam-pessoa-img" id="carta" onclick="loadingAgain()" style="background-image: url('./personagemsFoto/${personagemsFoto}')">
                         </div>
                     </div>
                     <div class="gam-nome">

@@ -1,0 +1,48 @@
+.intro-creditos{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(54, 54, 54);
+    color: white;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: default;
+    transition: all ease .3s;
+}
+
+.intro-inside{
+    text-align: center;
+    font-family: "Poppins";
+    transition: all ease .2s;
+    opacity: 0;
+}
+
+.intro-inside-cima{
+    margin-bottom: 10px;
+}
+
+.intro-inside-grupo{
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.intro-inside-grupo > span{
+    color: rgb(64, 216, 64);
+}
+
+.intro-inside-jogo{
+    font-size: 14px;
+}
+
+.intro-inside-jogo > span{
+    color: yellow;
+    font-weight: 800;
+    font-style: italic;
+}
+
+.intro-inside-nome{
+    font-size: 15px;
+}
