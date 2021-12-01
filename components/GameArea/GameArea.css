@@ -74,19 +74,32 @@
     width: 80%;
     height: 90%;
     border-radius: 10px;
-    background-color: rgb(112, 45, 1);
+    background-image: url('../../imagens/p1.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     position: absolute;
     user-select: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 15px;
     color: white;
     font-family: sans-serif;
-    font-size: 20px;
+    font-size: 19px;
     cursor: pointer;
+    z-index: 99;
 }
 
+.gma-pessoa-texto-direto{
+    max-width: 150px;
+    float: right;
+}
 
+.gam-pessoa-img-fundo{
+    width: 80%;
+    height: 90%;
+    position: absolute;
+    border-radius: 10px;
+    background-color: rgb(19, 19, 19);
+}
 
 .gam-nome{
     width: 100%;

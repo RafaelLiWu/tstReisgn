@@ -2,6 +2,8 @@ var move = document.getElementById("carta"),
     indiceGame = 0,
     itemX = 0,
     itemY = 0,
+    positionX_inicial = document.getElementById("moveBackground"),
+    positionY_inicial = document.getElementById("moveBackground"),
     transitionX = 0,
     direction = "",
     pessoaV = document.querySelector(".pessoa-vida").innerHTML,
@@ -29,14 +31,26 @@ if (window.innerWidth > 600) {
             move.style.transform = "rotate(" + (((e.pageX - itemX) - 40) * 0.2) + "deg)"
         }
 
-        if (e.pageX - itemX > 45) {
+        if (e.pageX - itemX > 50) {
             direction = "direita"
             let textoDireito = missions[indiceGame].acoes[1].texto
-            $(".gam-pessoa-img").html(textoDireito)
-        } else if (e.pageX - itemX < 35) {
+            $(".gam-pessoa-img").html(
+                `
+                    <div class="gma-pessoa-texto-direto">
+                        ${textoDireito}
+                    </div>
+                `
+            )
+        } else if (e.pageX - itemX < 30) {
             direction = "esquerda"
             let textoEsquerdo = missions[indiceGame].acoes[0].texto
-            $(".gam-pessoa-img").html(textoEsquerdo)
+            $(".gam-pessoa-img").html(
+                `
+                <div class="gma-pessoa-texto-esquerdo">
+                    ${textoEsquerdo}
+                </div>
+                `
+            )
         } else if (e.pageX - itemX > 30 && e.pageX - itemX < 50) {
             direction = ""
             document.querySelector(".gam-pessoa-img").innerHTML = " "
@@ -70,6 +84,16 @@ if (window.innerWidth > 600) {
             } else {
                 morreu()
             }
+        } else if (direction == "") {
+            $(move).css("transition", "all cubic-bezier(0.25, 0.46, 0.45, 0.94) .2s")
+            setTimeout(() => {
+                move.style.transform = "rotate(0deg)";
+                $(move).css("left", positionX_inicial)
+                $(move).css("top", positionY_inicial)
+            }, 100)
+            setTimeout(() => {
+                $(move).css("transition", "none")
+            }, 300)
         }
         removeEventListener("mousemove", dragMove)
         removeEventListener("mouseup", dragEnd)
@@ -84,6 +108,8 @@ if (window.innerWidth > 600) {
                     <div class="gam-pessoa">
                         <div class="gam-pessoa-img" id="carta">
                         </div>
+                        <div class="gam-pessoa-img-fundo" id="moveBackground">
+                        </div>
                     </div>
                     <div class="gam-nome">
                         ${missions[i].pessoaNome}
@@ -95,6 +121,9 @@ if (window.innerWidth > 600) {
         direction = ""
 
         move = document.getElementById("carta");
+
+        positionX_inicial = document.getElementById("moveBackground").offsetLeft
+        positionY_inicial = document.getElementById("moveBackground").offsetTop
 
         move.addEventListener("mousedown", dragStart)
     }
@@ -128,14 +157,27 @@ if (window.innerWidth > 600) {
             move.style.transform = "rotate(" + (((e.targetTouches[0].pageX - itemX) - 40) * 0.2) + "deg)"
         }
 
-        if (e.targetTouches[0].pageX - itemX > 45) {
+        if (e.targetTouches[0].pageX - itemX > 50) {
             direction = "direita"
             let textoDireito = missions[indiceGame].acoes[1].texto
-            $(".gam-pessoa-img").html(textoDireito)
-        } else if (e.targetTouches[0].pageX - itemX < 35) {
+            $(".gam-pessoa-img").html(
+                `
+                    <div class="gma-pessoa-texto-esquerdo">
+                        ${textoDireito}
+                    </div>
+                `
+            )
+        } else if (e.targetTouches[0].pageX - itemX < 30) {
             direction = "esquerda"
             let textoEsquerdo = missions[indiceGame].acoes[0].texto
-            $(".gam-pessoa-img").html(textoEsquerdo)
+            $(".gam-pessoa-img").html(
+                `
+                    <div class="gma-pessoa-texto-esquerdo">
+                        ${textoEsquerdo}
+                    </div>
+                `
+
+            )
         } else if (e.targetTouches[0].pageX - itemX > 30 && e.targetTouches[0].pageX - itemX < 50) {
             direction = ""
             document.querySelector(".gam-pessoa-img").innerHTML = " "
@@ -172,7 +214,18 @@ if (window.innerWidth > 600) {
             } else {
                 morreu()
             }
+        } else if (direction == "") {
+            $(move).css("transition", "all cubic-bezier(0.25, 0.46, 0.45, 0.94) .2s")
+            setTimeout(() => {
+                move.style.transform = "rotate(0deg)";
+                $(move).css("left", positionX_inicial)
+                $(move).css("top", positionY_inicial)
+            }, 100)
+            setTimeout(() => {
+                $(move).css("transition", "none")
+            }, 300)
         }
+
         removeEventListener("touchmove", dragMove)
         removeEventListener("touchend", dragEnd)
     }
@@ -185,6 +238,8 @@ if (window.innerWidth > 600) {
                     <div class="gam-pessoa">
                         <div class="gam-pessoa-img" id="carta">
                         </div>
+                        <div class="gam-pessoa-img-fundo" id="moveBackground">
+                        </div>
                     </div>
                     <div class="gam-nome">
                         ${missions[i].pessoaNome}
@@ -196,6 +251,9 @@ if (window.innerWidth > 600) {
         direction = ""
 
         move = document.getElementById("carta");
+
+        positionX_inicial = document.getElementById("moveBackground").offsetLeft
+        positionY_inicial = document.getElementById("moveBackground").offsetTop
 
         move.addEventListener("touchstart", dragStart)
     }
@@ -222,7 +280,7 @@ function afetar(pessoa, vida, arma, dinheiro) {
 }
 
 function morreu() {
-    let randomNumber = Math.floor(Math.random() * finais.length)
+    let randomNumber = Math.floor(Math.random() * mortes.length)
     let html = `
                     <div class="gam-texto">
                         ${mortes[randomNumber].texto}
