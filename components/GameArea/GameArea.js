@@ -21,23 +21,6 @@ const soundCartaJogada = new Audio("audios/CartaJogada.wav"),
     soundCartaRetornando = new Audio("audios/CartaPlace.wav"),
     dispositivo = (window.innerWidth > 600) ? "desktop" : "mobile"
 
-
-
-let historias
-
-for (let i = 0; i < missions.length; i++) {
-    let naoTem = jaJogou.filter(x => x == i)
-    console.log(naoTem)
-    if (naoTem) {
-        historias = i
-        console.log(naoTem)
-    } else {
-        console.log(naoTem + "Ola")
-    }
-}
-
-
-
 // Em JOGO (Movimentações e Ações)
 
 function dragStart(e) {
@@ -195,15 +178,18 @@ function next(i) {
                     </div>
         `
 
-    // Animação lá do Lapse
-    // $("#carta").css("transition", "all ease .5s")
-    // setTimeout(() => {
-    //     $("#carta").css("background-color", `white`)
-    // }, 100);
-    // setTimeout(() => {
-    //     $("#carta").css("background-image", `url('./personagemsFoto/${personagemsFoto}')`)
-    //     $("#carta").css("transition", "none")
-    // }, 600)
+    setTimeout(() => {
+        document.querySelector(".gam-pessoa-img").style.transform = "rotateY(0deg)";
+    }, 100)
+
+    setTimeout(() => {
+        document.querySelector(".gam-pessoa-img").style.transition = "none";
+        if (dispositivo == "desktop") {
+            move.addEventListener("mousedown", dragStart)
+        } else {
+            move.addEventListener("touchstart", dragStart)
+        }
+    }, 1000)
 
     $(".ga-middle").html(html)
     if (textoMission.length > 200) {
@@ -219,12 +205,6 @@ function next(i) {
 
     positionX_inicial = document.getElementById("moveBackground").offsetLeft
     positionY_inicial = document.getElementById("moveBackground").offsetTop
-    if (dispositivo == "desktop") {
-        move.addEventListener("mousedown", dragStart)
-    } else {
-        move.addEventListener("touchstart", dragStart)
-    }
-
 }
 
 
@@ -261,8 +241,12 @@ function introducaoStart(iIntroducao) {
                 ${introducao[iIntroducao].texto}
             </div>
             <div class="gam-pessoa">
-                <div class="gam-pessoa-img" id="carta" style="background-image: url('./personagemsFoto/${personagemsFoto}');">
-                </div>
+                    <div class="gam-pessoa-img" id="carta" style="background-image: url('./personagemsFoto/${personagemsFoto}');">
+
+                    </div>
+                    <div class="gam-pessoa-img-back">
+
+                    </div>
                 <div class="gam-pessoa-img-fundo" id="moveBackground">
                 </div>
             </div>
@@ -270,17 +254,26 @@ function introducaoStart(iIntroducao) {
                 ${introducao[iIntroducao].pessoaNome}
             </div>
         `
+
+    setTimeout(() => {
+        document.querySelector(".gam-pessoa-img").style.transform = "rotateY(0deg)";
+    }, 100)
+
+    setTimeout(() => {
+        document.querySelector(".gam-pessoa-img").style.transition = "none";
+        if (dispositivo == "desktop") {
+            move.addEventListener("mousedown", dragStartIntro)
+        } else {
+            move.addEventListener("touchstart", dragStartIntro)
+        }
+    }, 1000)
+
     $(".ga-middle").html(html)
 
     move = document.getElementById("carta")
     directionIntro = ""
     positionX_inicial = document.getElementById("moveBackground").offsetLeft
     positionY_inicial = document.getElementById("moveBackground").offsetTop
-    if (dispositivo == "desktop") {
-        move.addEventListener("mousedown", dragStartIntro)
-    } else {
-        move.addEventListener("touchstart", dragStartIntro)
-    }
 }
 
 
@@ -402,7 +395,6 @@ function dragEndIntro() {
     }
 }
 
-introducaoStart(0)
 
 
 
@@ -436,8 +428,15 @@ function finish(history) {
                         </div>
         `
     $(".ga-middle").html(html)
-
+    move = document.getElementById("carta")
     move.addEventListener("mousedown", dragStartFinish)
+    setTimeout(() => {
+        document.querySelector(".gam-pessoa-img").style.transform = "rotateY(0deg)";
+    }, 100)
+
+    setTimeout(() => {
+        document.querySelector(".gam-pessoa-img").style.transition = "none";
+    }, 1000)
 }
 
 function dragStartFinish(e) {
@@ -615,6 +614,13 @@ function morreu() {
                     </div>
         `
     $(".ga-middle").html(html)
+    setTimeout(() => {
+        document.querySelector(".gam-pessoa-img").style.transform = "rotateY(0deg)";
+    }, 100)
+
+    setTimeout(() => {
+        document.querySelector(".gam-pessoa-img").style.transition = "none";
+    }, 1000)
 }
 
 
@@ -636,3 +642,20 @@ function loadingAgain(number) {
         next(indiceGame)
     }, 500)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+introducaoStart(0)
