@@ -116,7 +116,8 @@
 
 
 .gma-pessoa-texto-direito{
-    max-width: 150px;
+    width: 80%;
+    text-align: end;
     float: right;
 }
 

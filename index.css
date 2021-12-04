@@ -15,12 +15,18 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgb(70, 70, 70);
 }
 
 .mobile{
     width: 375px;
-    height: 667px;
+    height: 100vh;
     position: relative;
     overflow: hidden;
-    border-radius: 15px;
+}
+
+@media (max-width: 450px){
+    .mobile{
+        width: 100vw;
+    }
 }
