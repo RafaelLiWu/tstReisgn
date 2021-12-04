@@ -165,7 +165,7 @@
     align-items: center;
 }
 
-.Menu{
+.ga-bottom > div{
     width: 55px;
     height: 55px;
     border: 1px solid rgba(255,255,255,0.678);
@@ -175,4 +175,6 @@
     align-items: center;
     font-size: 35px;
     color: rgba(255, 255, 255, 0.678);
+    margin: 10px;
+    cursor: pointer;
 }
