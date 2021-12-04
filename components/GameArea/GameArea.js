@@ -45,21 +45,17 @@ function next(arr, i) {
 
     setTimeout(() => {
         document.querySelector(".gam-pessoa-img").style.transform = "rotateY(0deg)";
-    }, 100)
-
-    setTimeout(() => {
-        document.querySelector(".gam-pessoa-img").style.transition = "none";
         if (dispositivo == "desktop") {
             move.addEventListener("mousedown", dragStart)
         } else {
             move.addEventListener("touchstart", dragStart)
         }
-    }, 650)
+    }, 100)
 
     $(".ga-middle").html(html)
 
     move = document.getElementById("carta")
-    directionIntro = ""
+    direction = ""
     positionX_inicial = document.getElementById("moveBackground").offsetLeft
     positionY_inicial = document.getElementById("moveBackground").offsetTop
 }
@@ -74,6 +70,7 @@ function dragStart(e) {
             soundCartaRetornando.play()
         }, 50)
     }
+    document.querySelector(".gam-pessoa-img").style.transition = "none";
 
     if (dispositivo == "desktop") {
         itemX = e.pageX - move.offsetLeft;
